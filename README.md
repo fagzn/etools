@@ -1,1 +1,1 @@
-- [tik-alfred-wolai](tik-alfred-wolai/README.md)
+- [tik-alfred-wolai](alfred-tik-wolai/README.md)
