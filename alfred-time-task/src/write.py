@@ -12,11 +12,19 @@ if task is None:
     }
 
 title = os.getenv("title")
-task["items"].append(
-    {
-        "title": title
-    }
-)
+create_at = os.getenv("create_at")
+time = os.getenv("time")
+consume = os.getenv("consume")
+
+this = {
+    "title": title,
+    "create_at": create_at,
+    "time": time,  # 上次截止日期
+    "consume": consume
+}
+
+task["items"].append(this)
+
 output = json.dumps(task)
 print(output)
 
