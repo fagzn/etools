@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import json
 import os
 import sys
@@ -36,7 +38,7 @@ def like(name:str)->[]:
     result = []
     if "items" not in tasks:
         return result
-    for task in tasks["items"]:
+    for index, task in enumerate(tasks["items"]):
         if task["title"].find(name) > -1:
             total = 0
             times = 0
@@ -47,6 +49,7 @@ def like(name:str)->[]:
                     total += i["consumer"]
             startAt = int(task["time"])
             item = {
+                "uid": index,
                 "title": task["title"],
                 "subtitle": f'已执行次数:{times},累计耗时：{consume(total)}',
                 "variables": {

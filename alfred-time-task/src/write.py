@@ -1,7 +1,7 @@
+#!/usr/bin/python3
+
 import json
 import os
-import sys
-import time
 
 data = os.getenv('TASKLIST')
 task = json.loads(data)
