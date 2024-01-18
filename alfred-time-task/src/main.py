@@ -57,12 +57,15 @@ def like(name:str)->[]:
                 },
             }
             if startAt != 0:
-                item["subtitle"] += f',本次开始时间:{format_date(startAt)}. 已消耗时间:{consume(int(time.time()) - startAt)}'
+                item["title"] = f'{task["title"]}'
+                item["subtitle"] = f'【取消】{item["subtitle"]},本次开始时间:{format_date(startAt)}. 已消耗时间:{consume(int(time.time()) - startAt)}'
                 item["icon"] = {
                     "path": './cancel.png',
                 }
                 item["variables"]["OPERATION"] = "CANCEL"
             else:
+                item["title"] = f'{task["title"]}'
+                item["subtitle"] = f'【重启】{item["subtitle"]}'
                 item["icon"] = {
                     "path": './add.png',
                 }
@@ -70,9 +73,11 @@ def like(name:str)->[]:
             result.append(item)
     return result
 
+
 # 根据时间戳格式化本地时间字符串
 def format_date(t: int) -> str:
     return time.strftime("%Y-%m-%d %H:%M:%S ", time.localtime(t))
+
 
 # 计算已消耗时间
 def consume(consume: int) -> str:
@@ -90,7 +95,7 @@ def consume(consume: int) -> str:
     return consume
 
 def run():
-    tasks = like(item)
+    tasks = like(item.strip())
     if len(tasks) != 0:
        output_items(tasks)
     else:
