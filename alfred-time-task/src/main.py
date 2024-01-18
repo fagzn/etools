@@ -10,6 +10,7 @@ query = sys.argv
 tasks = {}
 item = ""
 
+
 def init_env():
     global tasks
     global item
