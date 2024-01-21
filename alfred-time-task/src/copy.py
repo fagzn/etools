@@ -15,7 +15,7 @@ if tasks is None:
 title = os.getenv("title")
 result = ""
 for task in tasks["items"]:
-    if task["title"] != title:
+    if task["title"] == title:
         total = 0
         if "consume" in task:
             consumer = json.loads(task["consume"])
