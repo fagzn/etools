@@ -5,31 +5,17 @@ import os
 import sys
 import time
 from pathlib import Path
+from db_opt import Read, TaskDataStruct
 
 query = sys.argv
-tasks = {}
+taskdb:TaskDataStruct
 item = ""
 
 
 def init_env():
-    global tasks
+    global taskdb
     global item
-    proj_path = os.getenv("alfred_workflow_cache")
-    data_path = f"{proj_path}/task.json"
-    directory = Path(data_path).parent
-
-    # 检查目录是否存在，如果不存在则递归创建目录
-    if not directory.exists():
-        directory.mkdir(parents=True)
-
-    if not os.path.exists(data_path):
-        with open(data_path, "w") as file:
-            ctx = {"items":[]}
-            ctxData = json.dumps(ctx)
-            file.write(ctxData)
-
-    with open(data_path) as file:
-        tasks = json.loads(file.read())
+    taskdb = Read()
 
     if len(query) > 1:
         item = query[1]
@@ -37,35 +23,32 @@ def init_env():
 
 def like(name:str)->[]:
     result = []
-    if "items" not in tasks:
+    if taskdb is None:
         return result
-    for index, task in enumerate(tasks["items"]):
-        if task["title"].find(name) > -1:
+    for index, task in enumerate(taskdb.items):
+        if task.title.find(name) > -1:
             total = 0
             times = 0
-            if "consume" in task:
-                consumer = json.loads(task["consume"])
-                times = len(consumer["log"])
-                for i in consumer["log"]:
-                    total += i["consumer"]
-            startAt = int(task["time"])
+            for i in task.consumes:
+                total += i.consume
+            startAt = task.time
             item = {
                 "uid": index,
-                "title": task["title"],
+                "title": task.title,
                 "subtitle": f'已执行次数:{times},累计耗时：{consume(total)}',
                 "variables": {
-                    'title': task["title"],
+                    'title': task.title,
                 },
             }
             if startAt != 0:
-                item["title"] = f'{task["title"]}'
+                item["title"] = f'{task.title}'
                 item["subtitle"] = f'【取消】{item["subtitle"]},本次开始时间:{format_date(startAt)}. 已消耗时间:{consume(int(time.time()) - startAt)}'
                 item["icon"] = {
                     "path": './cancel.png',
                 }
                 item["variables"]["OPERATION"] = "CANCEL"
             else:
-                item["title"] = f'{task["title"]}'
+                item["title"] = f'{task.title}'
                 item["subtitle"] = f'【重启】{item["subtitle"]}'
                 item["icon"] = {
                     "path": './add.png',
@@ -103,7 +86,7 @@ def run():
         # create
         # print("create", item)
         now = int(time.time())
-        consume = {"log":[]}
+        consume = []
         consume_data = json.dumps(consume)
         output_items([
                 {
@@ -120,6 +103,7 @@ def run():
                     },
                 }
             ])
+
 def output_items(result:any):
     if type(result) == list:
         result =  {
