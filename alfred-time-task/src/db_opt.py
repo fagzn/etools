@@ -74,16 +74,14 @@ def convert_to_dict(obj):
         raise TypeError("Object of unsupported type")
 
 
-def ReadCache() -> [TaskDataStruct]:
-    data = os.getenv(TASK_CACHE_KEY)
-    if data.strip() == "" or data.strip() == "{}" or len(data) == 0 :
-        return Read()
-    datas = json.loads(data)
-    result = TaskDataStruct(**datas)
-    return result
-
-
 def Read(data_path:str=None) -> [TaskDataStruct]:
+    # 尝试读缓存
+    data = os.getenv(TASK_CACHE_KEY)
+    if data is not None and (not (data.strip() == "" or data.strip() == "{}" or len(data) == 0)):
+        datas = json.loads(data)
+        result = TaskDataStruct(**datas)
+        return result
+    # 读文件
     if data_path == None:
         data_path = f"{PROJ_ROOT_PATH}/{DATA_FILE_NAME}"
         directory = Path(data_path).parent

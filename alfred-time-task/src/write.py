@@ -2,9 +2,9 @@
 
 import json
 import os
-from db_opt import ReadCache
+from db_opt import Read
 
-taskdb = ReadCache()
+taskdb = Read()
 
 title = os.getenv("title")
 create_at = os.getenv("create_at")

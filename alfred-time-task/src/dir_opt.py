@@ -3,13 +3,13 @@
 import json
 import os
 import time
-from db_opt import ReadCache, TaskDataItemConsumeStruct
+from db_opt import Read, TaskDataItemConsumeStruct
 
 
 title = os.getenv("title")
 ops = os.getenv("OPERATION")
 if ops in ["CANCEL", "START"]:
-	tasks = ReadCache()
+	tasks = Read()
 	for task in tasks.items:
 		if task.title == title:
 			oldStart = task.time
