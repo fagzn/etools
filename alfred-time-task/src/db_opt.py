@@ -45,13 +45,16 @@ class TaskDataItemStruct:
     def append(self, item: TaskDataItemConsumeStruct):
         self.consumes.append(item)
 
+    def is_running(self) -> bool:
+        return self.time != 0
+
 
 class TaskDataStruct:
     items: [TaskDataItemStruct]
 
     def __init__(self, items: [TaskDataItemStruct], **kwargs):
         self.items = [TaskDataItemStruct(**c) for c in items]
-        self.other = kwargs
+        # self.other = kwargs
 
     def append(self, item: TaskDataItemStruct):
         self.items.append(item)
@@ -74,7 +77,7 @@ def convert_to_dict(obj):
         raise TypeError("Object of unsupported type")
 
 
-def Read(data_path:str=None) -> [TaskDataStruct]:
+def Read(data_path:str=None) -> TaskDataStruct:
     # 尝试读缓存
     data = os.getenv(TASK_CACHE_KEY)
     if data is not None and (not (data.strip() == "" or data.strip() == "{}" or len(data) == 0)):
@@ -111,7 +114,7 @@ def Write(data:TaskDataStruct):
     output = json.dumps(data, default=convert_to_dict, indent=2)
     print(output)
 
-def DefaultData() -> [TaskDataStruct]:
+def DefaultData() -> TaskDataStruct:
     default = TaskDataStruct([])
     # Write(default)
     return default

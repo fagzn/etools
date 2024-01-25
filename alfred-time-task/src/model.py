@@ -1,18 +1,13 @@
-import json
 import os
 
 
-
+# alfred 的缓存目录
 PROJ_ROOT_PATH = os.getenv("alfred_workflow_cache")
+# 数据文件名称
 DATA_FILE_NAME = "task.json"
+# 数据链路上缓存的key
 TASK_CACHE_KEY = "TASKLIST"
-
-# if __name__ == '__main__':
-#     task = '{"items": [{"title": "groupuse", "create_at": "1705651301", "time": 0, "consume": [{"startAt": "1705651301", "endAt": 1705651761, "consumer": 460}]}]}'
-#     result = json.loads(task.encode())
-#     print(result)
-#     new_person = TaskDataStruct(**result)
-#     item = new_person.items[0]
-#     print(item.Time, item.Title)
-#     consum = item.Consume[0]
-#     print(consum.StartAt, type(consum))
+# reminder 的 key
+REMINDER_KEY = "REMINDER"
+REMINDER_VALUE_GIVEUP = "giveup"
+REMINDER_VALUE_CONTINUE = "continue"

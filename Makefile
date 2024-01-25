@@ -9,6 +9,7 @@ clean:
 
 update-tasktime:
 	@cp alfred-time-task/src/*.py ~/Library/Application\ Support/Alfred/Alfred.alfredpreferences/workflows/user.workflow.F8081AF8-B592-47C9-A7AE-5B666E70BA06
+	@chmod +x ~/Library/Application\ Support/Alfred/Alfred.alfredpreferences/workflows/user.workflow.F8081AF8-B592-47C9-A7AE-5B666E70BA06/*.py
 	@mv ~/Desktop/TimeTask.alfredworkflow alfred-time-task
 
 update-tasktime-home:

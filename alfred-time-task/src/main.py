@@ -40,7 +40,7 @@ def like(name:str)->[]:
                     'title': task.title,
                 },
             }
-            if startAt != 0:
+            if task.is_running():
                 item["title"] = f'{task.title}'
                 item["subtitle"] = f'【取消】{item["subtitle"]},本次开始时间:{format_date(startAt)}. 已消耗时间:{consume(int(time.time()) - startAt)}'
                 item["icon"] = {
@@ -82,6 +82,18 @@ def run():
     tasks = like(item.strip())
     if len(tasks) != 0:
        output_items(tasks)
+    elif item.strip() == "clean":
+        output_items([
+            {
+                "uid": f"111",
+                "type": "file",
+                "title": "deleting all of tasks",
+                "subtitle": f"deleting all of tasks",
+                "variables": {
+                    "OPERATION": "CLEAN",
+                },
+            }
+        ])
     else:
         # create
         # print("create", item)
