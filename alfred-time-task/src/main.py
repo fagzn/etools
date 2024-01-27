@@ -27,10 +27,8 @@ def like(name:str)->[]:
         return result
     for index, task in enumerate(taskdb.items):
         if task.title.find(name) > -1:
-            total = 0
-            times = 0
-            for i in task.consumes:
-                total += i.consume
+            total = task.consume_total()
+            times = task.consume_times()
             startAt = task.time
             item = {
                 "uid": index,

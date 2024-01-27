@@ -45,6 +45,18 @@ class TaskDataItemStruct:
     def append(self, item: TaskDataItemConsumeStruct):
         self.consumes.append(item)
 
+    def consume_total(self) -> int:
+        total = 0
+        for c in self.consumes:
+            # fix bug
+            if c.start_at == 0:
+                continue
+            total += c.consume
+        return total
+
+    def consume_times(self) -> int:
+        return len(self.consumes)
+
     def is_running(self) -> bool:
         return self.time != 0
 

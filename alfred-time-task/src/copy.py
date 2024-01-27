@@ -1,26 +1,16 @@
 #!/usr/bin/python3
 
-import json
 import os
 from main import consume
+from db_opt import Read
 
-data = os.getenv('TASKLIST')
-tasks = json.loads(data)
-if tasks is None:
-    tasks = {
-        "items": [
-        ]
-    }
+data = Read()
 
 title = os.getenv("title")
 result = ""
-for task in tasks["items"]:
-    if task["title"] == title:
-        total = 0
-        if "consume" in task:
-            consumer = json.loads(task["consume"])
-            for i in consumer["log"]:
-                total += i["consumer"]
-        result = f'time spent: {task["title"]} - {consume(total)}'
+for task in data.items:
+    if task.title == title:
+        result = f'time spent: {task.title} - {consume(task.consume_total())}'
+        break
 
 print(result)
