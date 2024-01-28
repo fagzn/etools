@@ -61,6 +61,18 @@ class TaskDataItemStruct:
     def is_running(self) -> bool:
         return self.time != 0
 
+    def start(self):
+        self.time = int(time.time())
+
+    def stop(self):
+        now = int(time.time())
+        if self.time == 0:
+            # copy 的时候,会触发 cancel. 单纯 copy 时要跳过
+            return
+        new_consume = TaskDataItemConsumeStruct(self.time, now, int(now) - int(self.time))
+        self.append(new_consume)
+        self.time = 0
+
 
 class TaskDataStruct:
     items: [TaskDataItemStruct]

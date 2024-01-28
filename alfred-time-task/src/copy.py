@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 
 import os
+import time
+
 from main import consume
 from db_opt import Read
 
@@ -10,7 +12,10 @@ title = os.getenv("title")
 result = ""
 for task in data.items:
     if task.title == title:
-        result = f'time spent: {task.title} - {consume(task.consume_total())}'
+        total = task.consume_total()
+        if task.is_running():
+            total += int(time.time()) - task.time
+        result = f'time spent: {task.title} - {consume(total)}'
         break
 
 print(result)
