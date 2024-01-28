@@ -3,9 +3,10 @@
 import json
 import logging
 import os
+import time
 from pathlib import Path
 
-from model import TASK_CACHE_KEY, PROJ_ROOT_PATH, DATA_FILE_NAME
+from model import TASK_CACHE_KEY, PROJ_ROOT_PATH, DATA_FILE_NAME, CACHE_EXPIRED
 
 logger = logging.getLogger()
 
@@ -63,9 +64,11 @@ class TaskDataItemStruct:
 
 class TaskDataStruct:
     items: [TaskDataItemStruct]
+    version: int
 
-    def __init__(self, items: [TaskDataItemStruct], **kwargs):
+    def __init__(self, items: [TaskDataItemStruct], version: int=0, **kwargs):
         self.items = [TaskDataItemStruct(**c) for c in items]
+        self.version = version
         # self.other = kwargs
 
     def append(self, item: TaskDataItemStruct):
@@ -75,6 +78,11 @@ class TaskDataStruct:
         output = json.dumps(self, default=convert_to_dict, indent=2)
         print(output)
 
+    def expired(self) -> bool:
+        # 缓存有效期只有1分钟
+        if int(time.time()) - self.version > CACHE_EXPIRED:
+            return True
+        return False
 
 
 # 自定义函数，将对象转换为可序列化的字典
@@ -95,7 +103,8 @@ def Read(data_path:str=None) -> TaskDataStruct:
     if data is not None and (not (data.strip() == "" or data.strip() == "{}" or len(data) == 0)):
         datas = json.loads(data)
         result = TaskDataStruct(**datas)
-        return result
+        if not result.expired():
+            return result
     # 读文件
     if data_path == None:
         data_path = f"{PROJ_ROOT_PATH}/{DATA_FILE_NAME}"
@@ -127,6 +136,6 @@ def Write(data:TaskDataStruct):
     print(output)
 
 def DefaultData() -> TaskDataStruct:
-    default = TaskDataStruct([])
+    default = TaskDataStruct([], int(time.time()))
     # Write(default)
     return default
