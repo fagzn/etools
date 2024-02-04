@@ -1,5 +1,5 @@
-## alfred 工具集
-
+## alfred 练手小项目
+alfred 工具集, 目前自己开发的都是练手小项目
 | project                                                  | description |
 |----------------------------------------------------------|-------------|
 | [tik-alfred-wolai](alfred-tik-wolai/README.md)           | 计数器         |
