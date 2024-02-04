@@ -14,7 +14,7 @@ for task in tasks["items"]:
                 "uid": task["title"],
                 "type": "file",
                 "title": task["title"],
-                "subtitle": f"create a new task {task['title'],}",
+                "subtitle": f"创建一个新任务 {task['title'],}",
             }
     )
 

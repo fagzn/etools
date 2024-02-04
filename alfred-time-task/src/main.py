@@ -1,10 +1,8 @@
 #!/usr/bin/python3
 
 import json
-import os
 import sys
 import time
-from pathlib import Path
 from db_opt import Read, TaskDataStruct
 
 query = sys.argv
@@ -85,8 +83,8 @@ def run():
             {
                 "uid": f"111",
                 "type": "file",
-                "title": "deleting all of tasks",
-                "subtitle": f"deleting all of tasks",
+                "title": "清空任务",
+                "subtitle": f"删除所有任务记录",
                 "variables": {
                     "OPERATION": "CLEAN",
                 },
@@ -103,7 +101,7 @@ def run():
                     "uid": f"{item}",
                     "type": "file",
                     "title": item,
-                    "subtitle": f"create a new task {item}",
+                    "subtitle": f"创建一个新的任务 {item}",
                     "variables": {
                         'title': item,
                         "create_at": now,

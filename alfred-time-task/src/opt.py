@@ -8,8 +8,8 @@ title = os.getenv("title")
 now = int(time.time())
 items = [
     {
-        "title": f"Start {title}",
-        "subtitle": f"start a new time",
+        "title": f"启动 {title}",
+        "subtitle": f"启动一个新任务",
         "icon": {
               "path": './add.png',
             },
@@ -20,8 +20,8 @@ items = [
         },
     },
     {
-        "title": f"End {title}",
-        "subtitle": f"end a new time",
+        "title": f"停止 {title}",
+        "subtitle": f"停止当前任务",
         "icon": {
               "path": './cancel.png',
             },

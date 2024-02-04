@@ -15,7 +15,7 @@ for task in data.items:
         total = task.consume_total()
         if task.is_running():
             total += int(time.time()) - task.time
-        result = f'time spent: {task.title} - {consume(total)}'
+        result = f'{task.title} spent: {consume(total)}'
         break
 
 print(result)
